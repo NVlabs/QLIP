@@ -50,37 +50,42 @@
           <h1 class="title is-4 publication-conference"></h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="http://zhaoyue-zephyrus.github.io" target="_blank">Yue Zhao</a><sup>1,2</sup>,
+              <a href="http://zhaoyue-zephyrus.github.io" target="_blank">Yue Zhao</a><sup>1,*</sup>,
             </span>
             <span class="author-block">
-              <a href="https://xuefuzhao.github.io/" target="_blank">Fuzhao Xue</a><sup>1</sup>,
+              <a href="https://xuefuzhao.github.io/" target="_blank">Fuzhao Xue</a><sup>2,&dagger;</sup>,
             </span>
             <span class="author-block">
-              <a href="https://reedscot.github.io/" target="_blank">Scott Reed</a><sup>1</sup>,
+              <a href="https://reedscot.github.io/" target="_blank">Scott Reed</a><sup>2</sup>,
             </span>
             <span class="author-block">
-              <a href="https://jimfan.me/" target="_blank">Linxi "Jim" Fan</a><sup>1</sup>,
+              <a href="https://jimfan.me/" target="_blank">Linxi "Jim" Fan</a><sup>2</sup>,
             </span>
             <span class="author-block">
-              <a href="https://yukezhu.me/" target="_blank">Yuke Zhu</a><sup>1</sup>,
+              <a href="https://yukezhu.me/" target="_blank">Yuke Zhu</a><sup>1,2</sup>,
             </span>
             <span class="author-block">
-                <a href="https://jankautz.com/" target="_blank">Jan Kautz</a><sup>1</sup>,
+                <a href="https://jankautz.com/" target="_blank">Jan Kautz</a><sup>2</sup>,
             </span>
             <span class="author-block">
-                <a href="https://chrisding.github.io/" target="_blank">Zhiding Yu</a><sup>1</sup>,
+                <a href="https://chrisding.github.io/" target="_blank">Zhiding Yu</a><sup>2</sup>,
             </span>
             <span class="author-block">
-                <a href="http://philkr.net" target="_blank">Philipp Kr&auml;henb&uuml;hl</a><sup>2</sup>,
+                <a href="http://philkr.net" target="_blank">Philipp Kr&auml;henb&uuml;hl</a><sup>1</sup>,
             </span>
             <span class="author-block">
-                <a href="https://ai.stanford.edu/~dahuang/" target="_blank">De-An Huang</a><sup>1</sup>
+                <a href="https://ai.stanford.edu/~dahuang/" target="_blank">De-An Huang</a><sup>2</sup>
             </span>
         </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>NVIDIA Research</span>
-            <span class="author-block"><sup>2</sup>UT Austin</span>
+            <span class="author-block"><sup>1</sup>UT Austin</span>
+            <span class="author-block"><sup>2</sup>NVIDIA</span>
+          </div>
+
+          <div class="is-size-7 publication-authors">
+            <span class="author-block"><sup>*</sup>The work was done during an internship at NVIDIA Research.</span>
+            <span class="author-block"><sup>&dagger;</sup>Now at Google DeepMind.</span>
           </div>
 
           <div class="column has-text-centered">
@@ -173,16 +178,47 @@
     <div class="container is-max-desktop">
 
         <div class="columns is-centered">
-    
+
+
+          <!-- Method Motivation. -->
+          <div class="column">
+            <div class="content">
+              <h2 class="title is-5">Observation 1: Memory comsumption</h2>
+              <div class="content has-text-justified">
+                <img src="./static/images/memory.png" width="60%" class="center" alt="memory">
+              </div>
+              <p>
+              Reconstruction losses incur a large proportion of the memory cost and prohibit large-batch training.
+              Better reconstruction is not always beneficial for representation learning.
+            </p>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="content">
+              <h2 class="title is-5">Observation 2: Loss imbalance</h2>
+              <div class="content has-text-justified">
+                <img src="./static/images/loss_weight.png" width="60%" class="center" alt="loss weight">
+              </div>
+              <p>
+              Different gradient magnitude (up to 2 orders of magnitude) leads to different convergence rates between the contrastive image-text
+              alignment and pixel reconstruction objectives.
+              </p>
+            </div>
+          </div>
+          <!--/ Method Motivation. -->
+        </div>
+
           <!-- Method Overview. -->
           <div class="column">
             <div class="content">
-              <h2 class="title is-3">Training Q-LIP in two stages</h2>
+              <h2 class="title is-3">Solution: Training Q-LIP in two stages</h2>
               <div class="content has-text-justified">
                 <img src="./static/images/training.png" width="60%" class="center" alt="training">
               </div>
               <p>
-                Stage (1):  we optimize a weighted sum of reconstruction loss, quantization loss, and contrastive loss <i>without</i> the perceptual and adversarial loss. 
+                Stage (1):  we optimize a weighted sum of reconstruction loss, quantization loss, and contrastive loss <i>without</i> the perceptual and adversarial loss.
+                The loss weights are decided based on the gradient magnitude of each loss term. 
               </p>
               <p>
                 Stage (2): we improve the reconstruction quality and restore higher-frequency details by fine-tuning the quantization bottleneck and the visual decoder.
@@ -209,8 +245,10 @@
             <h2 class="title is-3">Evaluating Q-LIP</h2>
             <p>
               We conduct a linear probing evaluation to compare all visual encoder methods.
-              The methods include (1) reconstruction-only tokenizers such as VQ-VAE and BSQ-ViT, (2) language-quantized tokenizers, such as LQAE,
-              and (3) CLIP-style vision encoder (without decoder), such as EVA-CLIP.
+              The methods include: <br>
+              (1) reconstruction-only tokenizers such as VQ-VAE and <a href="https://arxiv.org/abs/2406.07548">BSQ-ViT</a>, <br>
+              (2) language-quantized tokenizers, such as <a href="https://arxiv.org/abs/2302.00902">LQAE</a>, and <br>
+              (3) CLIP-style vision encoder (without decoder), such as <a href="https://arxiv.org/abs/2303.15389">EVA-CLIP</a>. <br>
               We see significant improvement in linear probing classsification accuracy over reconstruction-only tokenizers and language-quantized tokenizers.
               In addition, Q-LIP is very close to EVA-CLIP.
             </p>
@@ -245,13 +283,38 @@
     </div>
 </section>
 
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Q-LIP Enables Unified Multimodal Modeling</h2>
+            <p>
+              With Q-LIP as the underlying visual tokenizer,
+              we show the performance of the unified multimodal model that performs all text-only,
+              image-to-text, and text-to-image tasks in one <b>single</b> model.
+            </p>
+            <div class="content has-text-centered">
+              <img src="./static/images/um3.png" width="70%" alt="um3">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{zhao2024viit,
+    <pre><code>@article{zhao2025qlip,
   author    = {Zhao, Yue and Xue, Fuzhao and Reed, Scott and Fan, Linxi and Zhu, Yuke and Kautz, Jan and Yu, Zhiding and Kr&auml;henb&uuml;hl, Philipp and Huang, De-An},
   title     = {Q-LIP: Text-Aligned Visual Tokenization Unifies Auto-Regressive Multimodal Understanding and Generation},
-  journal   = {arXiv preprint arXiv:2501.yyyyy},
+  journal   = {arXiv preprint arXiv:2502.yyyyy},
   year      = {2025},
 }</code></pre>
   </div>
@@ -262,10 +325,10 @@
   <div class="container">
     <div class="content has-text-centered">
       <a class="icon-link"
-         href="./static/contents/viit_paper.pdf">
+         href="./static/contents/qlip_paper.pdf">
         <i class="fas fa-file-pdf"></i>
       </a>
-      <a class="icon-link" href="https://github.com/zhaoyue-zephyrus" class="external-link" disabled>
+      <a class="icon-link" href="https://github.com/NVlabs/Q-LIP" class="external-link" disabled>
         <i class="fab fa-github"></i>
       </a>
     </div>
