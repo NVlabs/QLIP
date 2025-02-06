@@ -46,7 +46,7 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Q-LIP: Text-Aligned Visual Tokenization Unifies Auto-Regressive Multimodal Understanding and Generation</h1>
+          <h1 class="title is-1 publication-title">QLIP: Text-Aligned Visual Tokenization Unifies Auto-Regressive Multimodal Understanding and Generation</h1>
           <h1 class="title is-4 publication-conference"></h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
@@ -135,14 +135,14 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
             <p>
-            We introduce Quantized Language-Image Pretraining <b>(Q-LIP)</b>,
+            We introduce Quantized Language-Image Pretraining <b>(QLIP)</b>,
             a visual tokenization method that combines state-of-the-art reconstruction quality with state-of-the-art zero-shot image understanding.
-            Q-LIP trains a binary-spherical-quantization-based autoencoder with reconstruction and language-image alignment objectives.
+            QLIP trains a binary-spherical-quantization-based autoencoder with reconstruction and language-image alignment objectives.
             We are the first to show that the two objectives do not need to be at odds.
             We balance the two loss terms dynamically during training and show that a two-stage training pipeline effectively mixes the large-batch requirements of image-language pre-training with the memory bottleneck imposed by the reconstruction objective.
-            We validate the effectiveness of Q-LIP for multimodal understanding and text-conditioned image generation with a single model.
-            Specifically, Q-LIP serves as a drop-in replacement for the visual encoder for LLaVA and the image tokenizer for LlamaGen with comparable or even better performance.
-            Finally, we demonstrate that Q-LIP enables a unified mixed-modality auto-regressive model for understanding and generation.
+            We validate the effectiveness of QLIP for multimodal understanding and text-conditioned image generation with a single model.
+            Specifically, QLIP serves as a drop-in replacement for the visual encoder for LLaVA and the image tokenizer for LlamaGen with comparable or even better performance.
+            Finally, we demonstrate that QLIP enables a unified mixed-modality auto-regressive model for understanding and generation.
             </p>
         </div>
       </div>
@@ -161,7 +161,7 @@
           <div class="content has-text-justified">
               <p>
                 State-of-the-art visual tokenizers excel at either understanding (high zero-shot accuracy, e.g. SigLIP) or reconstruction (low reconstruction FID, e.g. RQ-VAE), but not both.
-                Q-LIP can perform well on both understanding and reconstruction with a marginal performance drop, opening up an opportunity for unified multi-modal understanding and generation.
+                QLIP can perform well on both understanding and reconstruction with a marginal performance drop, opening up an opportunity for unified multi-modal understanding and generation.
               </p>
               <div class="content has-text-justified">
                 <img src="./static/images//overview.png" class="center" alt="method overview">
@@ -212,7 +212,7 @@
           <!-- Method Overview. -->
           <div class="column">
             <div class="content">
-              <h2 class="title is-3">Solution: Training Q-LIP in two stages</h2>
+              <h2 class="title is-3">Solution: Training QLIP in two stages</h2>
               <div class="content has-text-justified">
                 <img src="./static/images/training.png" width="60%" class="center" alt="training">
               </div>
@@ -242,7 +242,7 @@
   
         <div class="column">
           <div class="content">
-            <h2 class="title is-3">Evaluating Q-LIP</h2>
+            <h2 class="title is-3">Evaluating QLIP</h2>
             <p>
               We conduct a linear probing evaluation to compare all visual encoder methods.
               The methods include: <br>
@@ -250,10 +250,10 @@
               (2) language-quantized tokenizers, such as <a href="https://arxiv.org/abs/2302.00902">LQAE</a>, and <br>
               (3) CLIP-style vision encoder (without decoder), such as <a href="https://arxiv.org/abs/2303.15389">EVA-CLIP</a>. <br>
               We see significant improvement in linear probing classsification accuracy over reconstruction-only tokenizers and language-quantized tokenizers.
-              In addition, Q-LIP is very close to EVA-CLIP.
+              In addition, QLIP is very close to EVA-CLIP.
             </p>
             <div class="content has-text-centered">
-              <img src="./static/images/linear_probe.png" alt="q-lip linear probe">
+              <img src="./static/images/linear_probe.png" alt="qlip linear probe">
             </div>
         </div>
         </div>
@@ -267,10 +267,10 @@
 
         <div class="column">
           <div class="content">
-            <h2 class="title is-3">Q-LIP For Text-to-Image Generation</h2>
+            <h2 class="title is-3">QLIP For Text-to-Image Generation</h2>
               <p>
-                We show the generated images by LlamaGen with its original VQGAN (<b>left</b>) and our Q-LIP (<b>right</b>) side by side with the same caption in the bottom.
-                We can see images generated by Q-LIP follow the captions better by depicting all aspects that might be missing from the baseline with VQ-GAN.
+                We show the generated images by LlamaGen with its original VQGAN (<b>left</b>) and our QLIP (<b>right</b>) side by side with the same caption in the bottom.
+                We can see images generated by QLIP follow the captions better by depicting all aspects that might be missing from the baseline with VQ-GAN.
               </p>
               <div class="content has-text-centered">
                 <img src="./static/images/llamagen.png" width="100%" alt="llamagen">
@@ -290,9 +290,9 @@
 
       <div class="column">
         <div class="content">
-          <h2 class="title is-3">Q-LIP Enables Unified Multimodal Modeling</h2>
+          <h2 class="title is-3">QLIP Enables Unified Multimodal Modeling</h2>
             <p>
-              With Q-LIP as the underlying visual tokenizer,
+              With QLIP as the underlying visual tokenizer,
               we show the performance of the unified multimodal model that performs all text-only,
               image-to-text, and text-to-image tasks in one <b>single</b> model.
             </p>
@@ -313,7 +313,7 @@
     <h2 class="title">BibTeX</h2>
     <pre><code>@article{zhao2025qlip,
   author    = {Zhao, Yue and Xue, Fuzhao and Reed, Scott and Fan, Linxi and Zhu, Yuke and Kautz, Jan and Yu, Zhiding and Kr&auml;henb&uuml;hl, Philipp and Huang, De-An},
-  title     = {Q-LIP: Text-Aligned Visual Tokenization Unifies Auto-Regressive Multimodal Understanding and Generation},
+  title     = {QLIP: Text-Aligned Visual Tokenization Unifies Auto-Regressive Multimodal Understanding and Generation},
   journal   = {arXiv preprint arXiv:2502.yyyyy},
   year      = {2025},
 }</code></pre>
@@ -328,7 +328,7 @@
          href="./static/contents/qlip_paper.pdf">
         <i class="fas fa-file-pdf"></i>
       </a>
-      <a class="icon-link" href="https://github.com/NVlabs/Q-LIP" class="external-link" disabled>
+      <a class="icon-link" href="https://github.com/NVlabs/QLIP" class="external-link" disabled>
         <i class="fab fa-github"></i>
       </a>
     </div>
